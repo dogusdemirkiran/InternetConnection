@@ -22,6 +22,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void sendData(View view){
-        Toast.makeText(getApplicationContext(), "Veri Gönderimi Başarılı", Toast.LENGTH_SHORT).show();
+        try {
+            Toast.makeText(getApplicationContext(), "Veri Gönderimi Başarılı", Toast.LENGTH_SHORT).show();
+        }catch (Exception e){
+            Toast.makeText(this, "Veri Gönderimi Başarısız.", Toast.LENGTH_SHORT).show();
+        }
     }
 }
