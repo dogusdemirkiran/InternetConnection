@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         editText = findViewById(R.id.mesaj);
         button = findViewById(R.id.sendButton);
-        kisi_Ekle();
+        tumKisiler();
 /*
         String jsonVeri = "{\"bayraklar\":[{\"bayrak_id\":\"1\",\"bayrak_ad\":\"T\\u00fcrkiye\",\"bayrak_resim\":\"turkiye\"},{\"bayrak_id\":\"2\",\"bayrak_ad\":\"Almanya\",\"bayrak_resim\":\"almanya\"},{\"bayrak_id\":\"3\",\"bayrak_ad\":\"\\u0130talya\",\"bayrak_resim\":\"italya\"},{\"bayrak_id\":\"4\",\"bayrak_ad\":\"Fransa\",\"bayrak_resim\":\"fransa\"},{\"bayrak_id\":\"5\",\"bayrak_ad\":\"Hollanda\",\"bayrak_resim\":\"hollanda\"},{\"bayrak_id\":\"6\",\"bayrak_ad\":\"\\u0130spanya\",\"bayrak_resim\":\"ispanya\"},{\"bayrak_id\":\"7\",\"bayrak_ad\":\"Slovenya\",\"bayrak_resim\":\"slovenya\"},{\"bayrak_id\":\"8\",\"bayrak_ad\":\"Slovakya\",\"bayrak_resim\":\"slovakya\"},{\"bayrak_id\":\"9\",\"bayrak_ad\":\"Estonya\",\"bayrak_resim\":\"estonya\"},{\"bayrak_id\":\"10\",\"bayrak_ad\":\"Rusya\",\"bayrak_resim\":\"rusya\"},{\"bayrak_id\":\"11\",\"bayrak_ad\":\"Bulgaristan\",\"bayrak_resim\":\"bulgaristan\"},{\"bayrak_id\":\"12\",\"bayrak_ad\":\"Romanya\",\"bayrak_resim\":\"romanya\"},{\"bayrak_id\":\"13\",\"bayrak_ad\":\"Norve\\u00e7\",\"bayrak_resim\":\"norvec\"},{\"bayrak_id\":\"14\",\"bayrak_ad\":\"Yunanistan\",\"bayrak_resim\":\"yunanistan\"},{\"bayrak_id\":\"15\",\"bayrak_ad\":\"Bosna Hersek\",\"bayrak_resim\":\"bosnahersek\"}],\"success\":1}";
 
@@ -90,8 +90,8 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 */
-    }
 
+/*
     public void kisi_Ekle(){
         //String text = editText.getText().toString();
         String url = "URL";
@@ -112,15 +112,51 @@ public class MainActivity extends AppCompatActivity {
 
                 Map<String,String> params = new HashMap<>();
                 //params.put("id","2");
-                params.put("kullanici_Adi","dogus");
-                params.put("kullanici_Sifre","12345");
+                params.put("kullanici_Adi","isim");
+                params.put("kullanici_Sifre","asd123");
 
-                return super.getParams();
+                return params;
             }
         };
 
         Volley.newRequestQueue(this).add(istek);
 
     }
+*/
+    }
+        public void tumKisiler() {
+            String url = "URL";
+            StringRequest istek = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    // Log.e("Cevap: ", response);
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        JSONArray kisilerListe = jsonObject.getJSONArray("users");
+                        for(int i=0;i<kisilerListe.length();i++){
+                            JSONObject k = kisilerListe.getJSONObject(i);
+                            int id = k.getInt("id");
+                            String kullanici_Adi = k.getString("kullanici_Adi");
+                            String kullanici_Sifre = k.getString("kullanici_Sifre");
 
+                            Log.e("id",String.valueOf(id));
+                            Log.e("Ad",kullanici_Adi);
+                            Log.e("Şifre",kullanici_Sifre);
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                }
+            });
+
+            Volley.newRequestQueue(this).add(istek);
+        }
 }
